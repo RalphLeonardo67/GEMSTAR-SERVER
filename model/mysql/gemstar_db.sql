@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 04, 2022 at 02:26 AM
+-- Generation Time: Mar 27, 2022 at 10:42 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.11
 
@@ -48,15 +48,8 @@ CREATE TABLE `comment` (
   `project_id` varchar(40) NOT NULL,
   `users_id` varchar(40) NOT NULL,
   `comment_content` varchar(1000) NOT NULL,
-  `date_created` float NOT NULL
+  `date_created` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `comment`
---
-
-INSERT INTO `comment` (`comment_id`, `project_id`, `users_id`, `comment_content`, `date_created`) VALUES
-('33b2d1e5-4487-49e8-bab4-1c5b37e4565f', '880661c2-9822-421f-b096-c2d14f88595a', '1dfa4584-e597-4822-b065-e01ba29038dd', '<p class=\"mb-0\">test</p>', 1638500000000);
 
 -- --------------------------------------------------------
 
@@ -67,9 +60,8 @@ INSERT INTO `comment` (`comment_id`, `project_id`, `users_id`, `comment_content`
 CREATE TABLE `logs` (
   `logs_id` varchar(50) NOT NULL,
   `logs_type` varchar(200) NOT NULL,
-  `created_at` float NOT NULL,
-  `remarks` varchar(255) NOT NULL,
-  `users_id` varchar(40) NOT NULL
+  `created_at` bigint(20) UNSIGNED NOT NULL,
+  `remarks` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -82,8 +74,8 @@ CREATE TABLE `notification` (
   `notification_id` varchar(40) NOT NULL,
   `content` varchar(1000) NOT NULL,
   `url_link` varchar(1000) NOT NULL,
-  `date` float NOT NULL,
-  `notified_by` varchar(40) NOT NULL,
+  `date` bigint(20) NOT NULL,
+  `notified_by` varchar(40) DEFAULT NULL,
   `users_id` varchar(40) NOT NULL,
   `is_read` tinyint(1) NOT NULL DEFAULT 0,
   `is_dismiss` tinyint(1) NOT NULL DEFAULT 0
@@ -107,13 +99,6 @@ CREATE TABLE `project` (
   `status_id` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `project`
---
-
-INSERT INTO `project` (`project_id`, `project_name`, `project_description`, `users_id`, `employee_id`, `start_date`, `end_date`, `date_created`, `status_id`) VALUES
-('b5e55ec2-d004-4c98-bb5f-405bee451d3a', 'Test Project 1', '', 'bdbd7ee2-70cd-4f86-afed-0f2444d5778e', '329e1d64-b4f1-44bc-9537-2d8a9926e338', 1638750000000, 1639180000000, 1638760000000, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -128,15 +113,6 @@ CREATE TABLE `project_file` (
   `original_file_name` varchar(255) NOT NULL,
   `file_path` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `project_file`
---
-
-INSERT INTO `project_file` (`project_file_id`, `project_id`, `date_uploaded`, `file_name`, `original_file_name`, `file_path`) VALUES
-('4b6f87a6-949e-41f6-8879-4665e1f1c3d1', 'b5e55ec2-d004-4c98-bb5f-405bee451d3a', 1638760000000, '45cce1ff-ac4b-4867-9455-b6cca1701761.jpg', 'IMG20211008142010.jpg', 'uploads/projects/b5e55ec2-d004-4c98-bb5f-405bee451d3a'),
-('8f9b47e0-6133-4f5b-84ef-b8ed51625aa0', '4ff5aadc-975f-4cae-acb3-c26fb1641619', 1638470000000, '0873f8b1-6b67-449e-9588-62cdded5c09e.jpg', 'IMG20211008142010.jpg', 'uploads/projects/4ff5aadc-975f-4cae-acb3-c26fb1641619'),
-('f525efa6-4f22-4319-a642-621d8111cfb4', '880661c2-9822-421f-b096-c2d14f88595a', 1638470000000, '5b8cf510-a97c-4c0c-a374-939d23f7aec6.jpg', 'IMG20211008142010.jpg', 'uploads/projects/880661c2-9822-421f-b096-c2d14f88595a');
 
 -- --------------------------------------------------------
 
@@ -156,13 +132,6 @@ CREATE TABLE `project_qoutation` (
   `last_updated` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `project_qoutation`
---
-
-INSERT INTO `project_qoutation` (`project_qoutation_id`, `project_qoutation_detail_id`, `quantity`, `unit`, `services_id`, `services_name`, `unit_price`, `price`, `last_updated`) VALUES
-('e773376d-5ddf-4916-83cd-f1a0b8c6c9e2', '4da72537-6ba6-47f5-8dc4-71df57faed4e', 12, 'pcs', 'd79242f7-2d77-4b66-bcdd-cc037d5cf7b8', 'Engine Valve Ring Insert / Fabrication/Installation', 12312, 147744, 1638760000000);
-
 -- --------------------------------------------------------
 
 --
@@ -181,12 +150,20 @@ CREATE TABLE `project_qoutation_detail` (
   `is_show` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `project_qoutation_detail`
+-- Table structure for table `project_status`
 --
 
-INSERT INTO `project_qoutation_detail` (`project_qoutation_detail_id`, `date`, `customer`, `address`, `engine_model`, `serial_number`, `project_id`, `is_final`, `is_show`) VALUES
-('4da72537-6ba6-47f5-8dc4-71df57faed4e', 1638760000000, 'Monkey, Luffy', 'Foosha Village, Goa Kingdom', 'HMFP', '1234124', 'b5e55ec2-d004-4c98-bb5f-405bee451d3a', 1, 1);
+CREATE TABLE `project_status` (
+  `project_status_id` varchar(40) NOT NULL,
+  `project_id` varchar(40) NOT NULL,
+  `status_id` int(1) NOT NULL,
+  `employee_id` varchar(40) NOT NULL,
+  `date_created` bigint(20) NOT NULL,
+  `remarks` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -241,13 +218,6 @@ CREATE TABLE `session` (
   `expired` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `session`
---
-
-INSERT INTO `session` (`sid`, `sess`, `expired`) VALUES
-('oJPt2sfYUJI5-dsFWfM-NLTCF61AU5D4', '{\"cookie\":{\"originalMaxAge\":604800000,\"expires\":\"2021-12-20T04:24:21.881Z\",\"secure\":false,\"httpOnly\":true,\"path\":\"/\",\"sameSite\":false},\"userId\":\"1dfa4584-e597-4822-b065-e01ba29038dd\",\"user\":{\"first_name\":\"Owner\",\"last_name\":\"Test\",\"middle_name\":\"\",\"birthday\":975802000000,\"user_level_name\":\"Owner\",\"user_level_acc\":\"owner\",\"email\":\"owner@mail.com\",\"user_name\":\"owner\",\"is_confirmed\":1,\"address\":\"Carmona, Cavite\"}}', '2021-12-28 19:45:58');
-
 -- --------------------------------------------------------
 
 --
@@ -298,11 +268,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`users_id`, `first_name`, `last_name`, `middle_name`, `birthday`, `user_level_id`, `email`, `user_name`, `password`, `is_confirmed`, `address`, `created_at`, `updated_at`) VALUES
-('1dfa4584-e597-4822-b065-e01ba29038dd', 'Owner', 'Test', '', 975802000000, 3, 'owner@mail.com', 'owner', '%242a%2410%24BiJGeEcmV0xecIDDyUvQQufsUpTPLPkGSI2tBPbml24ogmX2WAd2O', 1, 'Carmona, Cavite', 1638470000000, 1638470000000),
-('329e1d64-b4f1-44bc-9537-2d8a9926e338', 'Employee', 'Test', '', 1638660000000, 2, 'employee@gmail.com', 'employee', '%242a%2410%24l%2FsttBmfa3iw7CEqD4iSFegMgUSdpg%2FhI4%2FzUl20k2f1EJ1PlKI%2FS', 1, 'Carmona, Cavite', 1638650000000, 1638650000000),
-('bdbd7ee2-70cd-4f86-afed-0f2444d5778e', 'Luffy', 'Monkey', 'D', 925862000000, 1, 'test@mail.com', 'test', '%242a%2410%24GkxKz7zTISR4bhxgWseg..d3hel7woB.6REKqJ6V0Wc1QlfSF0JLG', 1, 'Foosha Village, Goa Kingdom', 1638470000000, 1638470000000),
-('fc32db51-7d96-41fc-b22f-ff42e96d2b01', 'Ace', 'Portgas', 'D', 982714000000, 1, 'test1@mail.com', 'test1', '%242a%2410%24NHb8V.lmbkGJk14JOg65a.l6tMYsjBqu4EHZru2cK3GwoG0O1tA0a', 0, 'Carmona, Cavite', 1639960000000, 1639960000000),
-('fcec6d0d-2f0f-4257-b82e-841514b43834', 'Garp', 'Monkey', 'D', 772070000000, 1, 'test2@mail.com', 'test2', '%242a%2410%24UJKw3zcGYb.zJFCfbRdSFekEbdQjhAw%2FyTb25OhPfKwch1sUgtOmy', 0, 'Carmona, Cavite', 1639960000000, 1639960000000);
+('1dfa4584-e597-4822-b065-e01ba29038dd', 'Owner', 'Test', '', 975802000000, 3, 'owner@mail.com', 'owner', '%242a%2410%24BiJGeEcmV0xecIDDyUvQQufsUpTPLPkGSI2tBPbml24ogmX2WAd2O', 1, 'Carmona, Cavite1', 1638470000000, 1638470000000),
+('329e1d64-b4f1-44bc-9537-2d8a9926e338', 'Employee', 'Test', '', 1638660000000, 2, 'employee@gmail.com', 'employee', '%242a%2410%24l%2FsttBmfa3iw7CEqD4iSFegMgUSdpg%2FhI4%2FzUl20k2f1EJ1PlKI%2FS', 1, 'Carmona, Cavite', 1638650000000, 1638650000000);
 
 -- --------------------------------------------------------
 
@@ -370,6 +337,12 @@ ALTER TABLE `project_qoutation`
 --
 ALTER TABLE `project_qoutation_detail`
   ADD PRIMARY KEY (`project_qoutation_detail_id`);
+
+--
+-- Indexes for table `project_status`
+--
+ALTER TABLE `project_status`
+  ADD PRIMARY KEY (`project_status_id`);
 
 --
 -- Indexes for table `services`
