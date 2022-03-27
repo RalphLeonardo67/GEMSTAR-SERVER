@@ -1,5 +1,13 @@
 const uuidv4 = require("uuid");
 
+const fetchStatus = () => {
+  const query = `SELECT * FROM status`;
+  return {
+    sql: query,
+    values: [],
+  };
+};
+
 const createProject = (
   projectId,
   project_name,
@@ -122,6 +130,35 @@ const fetchProjectDetails = (projectId) => {
       WHERE project_id = ?) as tbl1
     LEFT JOIN users
     ON tbl1.employee_id = users.users_id;`;
+  return {
+    sql: query,
+    values: [projectId],
+  };
+};
+
+const createProjectStatus = (projectId, usersId, statusId, remarks) => {
+  const query = `INSERT INTO project_status
+    (project_status_id, project_id, employee_id, date_created, remarks) 
+      VALUES 
+    (?, ?, ?, ?, ?)`;
+
+  return {
+    sql: query,
+    values: [uuidv4.v4(), projectId, usersId, statusId, Date.now(), remarks],
+  };
+};
+
+const fetchProjectStatus = (projectId) => {
+  const query = `SELECT project_status_id, project_id, date_created, remarks,
+    project_status.status_id, status.status_name, status.status_acr,
+    project_status.employee_id, users.first_name, users.last_name
+    FROM project_status
+    LEFT JOIN status
+    ON project_status.status_id = status.status_id
+    LEFT JOIN users
+    ON project_status.employee_id = users.users_id
+    WHERE project_status.project_id = ?`;
+
   return {
     sql: query,
     values: [projectId],
@@ -295,6 +332,7 @@ module.exports = {
   createComment,
   createProject,
   createProjectFileUpload,
+  createProjectStatus,
   createQoutationDetails,
   createQoutationServices,
   checkServicesExist,
@@ -305,8 +343,10 @@ module.exports = {
   fetchProjectDetails,
   fetchProjectEmployee,
   fetchProjectFiles,
+  fetchProjectStatus,
   fetchQuotationDetails,
   fetchQoutationServices,
+  fetchStatus,
   finalizeQoutation,
   updateProjectStatus,
   showQoutation,

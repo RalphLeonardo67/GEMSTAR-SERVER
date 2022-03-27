@@ -66,6 +66,20 @@ const fetchQoutationServices = (project_qoutation_detail_id) => {
   );
 };
 
+const fetchStatus = () => {
+  return executeScript(projectQuery.fetchStatus());
+};
+
+const createProjectStatus = (projectId, usersId, statusId, remarks) => {
+  return executeScript(
+    projectQuery.createProjectStatus(projectId, usersId, statusId, remarks)
+  );
+};
+
+const fetchProjectStatus = (projectId) => {
+  return executeScript(projectQuery.fetchProjectStatus(projectId));
+};
+
 const fetchQuotationDetails = (projectId) => {
   return executeScript(projectQuery.fetchQuotationDetails(projectId))
     .then((res) => res[0])
@@ -178,6 +192,7 @@ module.exports = {
   createComment,
   createProject,
   createProjectFileUpload,
+  createProjectStatus,
   createQoutationDetails,
   createQoutationServices,
   fetchComments,
@@ -185,8 +200,10 @@ module.exports = {
   fetchProjectAsAdmin,
   fetchProjectDetails,
   fetchProjectFiles,
+  fetchProjectStatus,
   fetchQuotationDetails,
   fetchQoutationServices,
+  fetchStatus,
   finalizeQoutation,
   showQoutation,
 };

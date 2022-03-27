@@ -30,6 +30,30 @@ router.post(
   }
 );
 
+router.get("/status/fetch", (req, res) => {
+  projectController.fetchStatus().then((response) => {
+    res.send(response);
+  });
+});
+
+router.post("/status/:projectId/create", (req, res) => {
+  const { remarks } = req.body;
+  const { projectId, statusId } = req.params;
+  const userId = req.session.userId;
+  projectController
+    .createProjectStatus(projectId, userId, statusId, remarks)
+    .then((response) => {
+      res.send({ success: true, data: response });
+    });
+});
+
+router.get("/:projectId/status/fetch", (req, res) => {
+  const { projectId } = req.params;
+  projectController.fetchProjectStatus(projectId).then((response) => {
+    res.send({ success: true, data: response });
+  });
+});
+
 router.post("/comment/create", (req, res) => {
   const commentId = uuidv4.v4();
   const userId = req.session.userId;

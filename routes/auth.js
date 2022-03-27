@@ -21,7 +21,7 @@ router.post("/register", loggerModule("REGISTRATION"), (req, res) => {
     });
 });
 
-router.put("/dynamic", (req, res) => {
+router.put("/dynamic", loggerModule("EDIT_USER"), (req, res) => {
   const { fieldName, value, usersId } = req.body;
   const { userId } = req.session;
 

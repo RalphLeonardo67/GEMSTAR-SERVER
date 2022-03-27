@@ -27,4 +27,11 @@ module.exports = {
     const remarks = `Project ${project_name} has created`;
     createLogs(logsId, LOGTYPE, remarks);
   },
+  EDIT_USER: (props, LOGTYPE, session) => {
+    const logsId = uuidv4.v4();
+    // const { project_name } = props;
+    console.log(props);
+    // const remarks = `Project ${project_name} has created`;
+    // createLogs(logsId, LOGTYPE, remarks);
+  },
 };
