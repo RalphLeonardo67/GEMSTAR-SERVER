@@ -161,14 +161,22 @@ router.get("/fetch/:projectId", (req, res) => {
     projectController.fetchProjectFiles(projectId),
     projectController.fetchComments(projectId),
     projectController.fetchQuotationDetails(projectId),
+    projectController.fetchProjectStatus(projectId),
   ]).then(
-    ([projectDetails, projectFiles, projectComments, projectQuotation]) => {
+    ([
+      projectDetails,
+      projectFiles,
+      projectComments,
+      projectQuotation,
+      projectStatus,
+    ]) => {
       res.send({
         success: true,
         projectDetails,
         projectFiles,
         projectComments,
         projectQuotation,
+        projectStatus,
       });
     }
   );

@@ -71,6 +71,7 @@ const fetchStatus = () => {
 };
 
 const createProjectStatus = (projectId, usersId, statusId, remarks) => {
+  executeScript(projectQuery.updateProjectStatus(statusId, projectId));
   return executeScript(
     projectQuery.createProjectStatus(projectId, usersId, statusId, remarks)
   );
