@@ -155,7 +155,8 @@ const fetchProjectStatus = (projectId) => {
     ON project_status.status_id = status.status_id
     LEFT JOIN users
     ON project_status.employee_id = users.users_id
-    WHERE project_status.project_id = ?`;
+    WHERE project_status.project_id = ?
+    ORDER BY date_created DESC`;
 
   return {
     sql: query,
