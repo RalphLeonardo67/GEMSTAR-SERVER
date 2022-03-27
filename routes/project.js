@@ -37,8 +37,8 @@ router.get("/status/fetch", (req, res) => {
 });
 
 router.post("/status/:projectId/create", (req, res) => {
-  const { remarks } = req.body;
-  const { projectId, statusId } = req.params;
+  const { remarks, statusId } = req.body;
+  const { projectId } = req.params;
   const userId = req.session.userId;
   projectController
     .createProjectStatus(projectId, userId, statusId, remarks)

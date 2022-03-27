@@ -97,7 +97,6 @@ const fetchProject = (userId) => {
 };
 
 const fetchProjectEmployee = (userId) => {
-  console.log({ userId });
   userId;
   const query = `SELECT project_id, project_name, project_description, project.users_id, start_date, end_date, date_created, project.status_id,
     users.first_name, users.last_name,
@@ -138,10 +137,9 @@ const fetchProjectDetails = (projectId) => {
 
 const createProjectStatus = (projectId, usersId, statusId, remarks) => {
   const query = `INSERT INTO project_status
-    (project_status_id, project_id, employee_id, date_created, remarks) 
+    (project_status_id, project_id, employee_id, status_id, date_created, remarks) 
       VALUES 
-    (?, ?, ?, ?, ?)`;
-
+    (?, ?, ?, ?, ?, ?)`;
   return {
     sql: query,
     values: [uuidv4.v4(), projectId, usersId, statusId, Date.now(), remarks],
