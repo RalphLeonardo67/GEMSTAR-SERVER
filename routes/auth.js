@@ -59,17 +59,16 @@ router.get("/all", (req, res) => {
   });
 });
 
+router.get("/logout", loggerModule("LOGOUT"), (req, res) => {
+  req.session.destroy();
+  res.send("logout");
+});
+
 router.get("/:usersId", (req, res) => {
   const { usersId } = req.params;
   AuthController.getByUsersId(usersId).then((result) => {
     res.send({ success: true, data: result });
   });
-});
-
-router.get("/logout", loggerModule("LOGOUT"), (req, res) => {
-  req.session.destroy();
-  req.logout();
-  res.send("logout");
 });
 
 module.exports = router;

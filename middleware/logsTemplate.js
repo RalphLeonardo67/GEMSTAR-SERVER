@@ -17,7 +17,7 @@ module.exports = {
   },
   LOGOUT: (props, LOGTYPE, session) => {
     const logsId = uuidv4.v4();
-    const { email } = session.user;
+    const { email } = session;
     const remarks = `${email} has LOGGED-OUT`;
     createLogs(logsId, LOGTYPE, remarks);
   },
