@@ -154,6 +154,12 @@ router.get("/fetch/admin", (req, res) => {
   });
 });
 
+router.get("/fetch/list", (req, res) => {
+  projectController.fetchAdminTable().then((result) => {
+    res.json({ success: true, data: result });
+  });
+});
+
 router.get("/fetch/:projectId", (req, res) => {
   const { projectId } = req.params;
   Promise.all([

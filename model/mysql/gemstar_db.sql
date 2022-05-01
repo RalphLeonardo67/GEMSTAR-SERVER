@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 27, 2022 at 10:42 PM
+-- Generation Time: May 02, 2022 at 01:02 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.11
 
@@ -64,6 +64,27 @@ CREATE TABLE `logs` (
   `remarks` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `logs`
+--
+
+INSERT INTO `logs` (`logs_id`, `logs_type`, `created_at`, `remarks`) VALUES
+('52c3b3be-2495-40c1-af40-25e9d2122e77', 'LOGIN', 1649169138996, 'owner has LOGGED-IN'),
+('ac6430ad-7adc-4b6a-93f6-a46b1e2e2891', 'LOGOUT', 1649296105485, 'owner@mail.com has LOGGED-OUT'),
+('8772b756-955a-4708-90c1-ce30c7909e43', 'LOGIN', 1649296151198, 'owner has LOGGED-IN'),
+('889b49e6-a709-4e13-81a9-ef4404099c3b', 'LOGOUT', 1649296158496, 'owner@mail.com has LOGGED-OUT'),
+('4b47b198-a6db-41e6-949a-c239dde9968c', 'LOGIN', 1649296212685, 'owner has LOGGED-IN'),
+('d245bc76-a1f2-49d1-b302-fb87b3b38349', 'LOGOUT', 1649296495862, 'owner@mail.com has LOGGED-OUT'),
+('1f54ca8c-40b4-4e36-9afe-e880298cba1c', 'LOGIN', 1649300040015, 'owner has LOGGED-IN'),
+('cc645411-aed5-42c8-b130-7560c4044fe7', 'LOGIN', 1649300637036, 'owner has LOGGED-IN'),
+('9e2ce1c6-7b1c-49be-ae4d-fd6fb0f24a29', 'LOGIN', 1649302952505, 'owner has LOGGED-IN'),
+('83225783-390f-48ab-aa16-445176d6186e', 'LOGIN', 1650415363814, 'owner has LOGGED-IN'),
+('c773375f-ceed-4a2a-9390-33f39d9cfe68', 'LOGIN', 1651430552636, 'owner has LOGGED-IN'),
+('f9900f7d-8e40-434c-b6fa-7f7098ce773d', 'REGISTRATION', 1651430963070, 'test1@mail.com has REGISTERED'),
+('492c6a09-0c92-4c22-a18b-0e5ecf386fca', 'LOGIN', 1651430969638, 'test1 has LOGGED-IN'),
+('aa768194-3fdb-48af-aea9-c481e85a4821', 'LOGIN', 1651430997214, 'test1 has LOGGED-IN'),
+('66c56db2-ced1-49c6-8c09-b31d18f10af7', 'CREATE_PROJECT', 1651431042244, 'Project Test Project 1 has created');
+
 -- --------------------------------------------------------
 
 --
@@ -95,7 +116,7 @@ CREATE TABLE `project` (
   `employee_id` varchar(40) NOT NULL,
   `start_date` float NOT NULL,
   `end_date` float NOT NULL,
-  `date_created` float NOT NULL,
+  `date_created` bigint(20) NOT NULL,
   `status_id` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -108,7 +129,7 @@ CREATE TABLE `project` (
 CREATE TABLE `project_file` (
   `project_file_id` varchar(40) NOT NULL,
   `project_id` varchar(40) NOT NULL,
-  `date_uploaded` float NOT NULL,
+  `date_uploaded` bigint(20) NOT NULL,
   `file_name` varchar(255) NOT NULL,
   `original_file_name` varchar(255) NOT NULL,
   `file_path` varchar(1000) NOT NULL
@@ -218,6 +239,14 @@ CREATE TABLE `session` (
   `expired` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `session`
+--
+
+INSERT INTO `session` (`sid`, `sess`, `expired`) VALUES
+('atfAj7boOy8lC044noLSJtDCqL6_tgVb', '{\"cookie\":{\"originalMaxAge\":604800000,\"expires\":\"2022-05-08T18:49:57.278Z\",\"secure\":false,\"httpOnly\":true,\"path\":\"/\",\"sameSite\":false},\"userId\":\"3ec55dba-99b6-4a6f-b630-23a81867a2e3\",\"user\":{\"users_id\":\"3ec55dba-99b6-4a6f-b630-23a81867a2e3\",\"first_name\":\"test1\",\"last_name\":\"test1\",\"middle_name\":\"test1\",\"birthday\":1296600000000,\"user_level_name\":\"Costumer\",\"user_level_acc\":\"csm\",\"email\":\"test1@mail.com\",\"user_name\":\"test1\",\"is_confirmed\":1,\"address\":\"Carmona, Cavite\"}}', '2022-05-08 14:58:54'),
+('J7cT8hfpurMLJY0VQo3UFNQDTkmv2NF2', '{\"cookie\":{\"originalMaxAge\":604800000,\"expires\":\"2022-05-08T18:42:32.735Z\",\"secure\":false,\"httpOnly\":true,\"path\":\"/\",\"sameSite\":false},\"userId\":\"1dfa4584-e597-4822-b065-e01ba29038dd\",\"user\":{\"users_id\":\"1dfa4584-e597-4822-b065-e01ba29038dd\",\"first_name\":\"Owner\",\"last_name\":\"Test\",\"middle_name\":\"\",\"birthday\":975802000000,\"user_level_name\":\"Owner\",\"user_level_acc\":\"owner\",\"email\":\"owner@mail.com\",\"user_name\":\"owner\",\"is_confirmed\":1,\"address\":\"Carmona, Cavite1\"}}', '2022-05-08 14:59:12');
+
 -- --------------------------------------------------------
 
 --
@@ -259,17 +288,18 @@ CREATE TABLE `users` (
   `password` varchar(150) NOT NULL,
   `is_confirmed` tinyint(1) NOT NULL DEFAULT 1,
   `address` varchar(255) NOT NULL,
-  `created_at` float NOT NULL,
-  `updated_at` float NOT NULL
+  `contact_number` varchar(16) NOT NULL,
+  `created_at` bigint(20) NOT NULL,
+  `updated_at` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`users_id`, `first_name`, `last_name`, `middle_name`, `birthday`, `user_level_id`, `email`, `user_name`, `password`, `is_confirmed`, `address`, `created_at`, `updated_at`) VALUES
-('1dfa4584-e597-4822-b065-e01ba29038dd', 'Owner', 'Test', '', 975802000000, 3, 'owner@mail.com', 'owner', '%242a%2410%24BiJGeEcmV0xecIDDyUvQQufsUpTPLPkGSI2tBPbml24ogmX2WAd2O', 1, 'Carmona, Cavite1', 1638470000000, 1638470000000),
-('329e1d64-b4f1-44bc-9537-2d8a9926e338', 'Employee', 'Test', '', 1638660000000, 2, 'employee@gmail.com', 'employee', '%242a%2410%24l%2FsttBmfa3iw7CEqD4iSFegMgUSdpg%2FhI4%2FzUl20k2f1EJ1PlKI%2FS', 1, 'Carmona, Cavite', 1638650000000, 1638650000000);
+INSERT INTO `users` (`users_id`, `first_name`, `last_name`, `middle_name`, `birthday`, `user_level_id`, `email`, `user_name`, `password`, `is_confirmed`, `address`, `contact_number`, `created_at`, `updated_at`) VALUES
+('1dfa4584-e597-4822-b065-e01ba29038dd', 'Owner', 'Test', '', 975802000000, 3, 'owner@mail.com', 'owner', '%242a%2410%24BiJGeEcmV0xecIDDyUvQQufsUpTPLPkGSI2tBPbml24ogmX2WAd2O', 1, 'Carmona, Cavite1', '', 1638467239936, 1638467239936),
+('329e1d64-b4f1-44bc-9537-2d8a9926e338', 'Employee', 'Test', '', 1638660000000, 2, 'employee@gmail.com', 'employee', '%242a%2410%24l%2FsttBmfa3iw7CEqD4iSFegMgUSdpg%2FhI4%2FzUl20k2f1EJ1PlKI%2FS', 1, 'Carmona, Cavite', '', 1638647726080, 1638647726080);
 
 -- --------------------------------------------------------
 

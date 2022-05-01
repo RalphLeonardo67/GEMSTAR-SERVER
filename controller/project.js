@@ -190,6 +190,10 @@ const finalizeQoutation = (projectId, project_qoutation_detail_id) => {
   });
 };
 
+const fetchAdminTable = () => {
+  return executeScript(projectQuery.fetchAdminTable());
+};
+
 module.exports = {
   assignEmployee,
   createComment,
@@ -198,6 +202,7 @@ module.exports = {
   createProjectStatus,
   createQoutationDetails,
   createQoutationServices,
+  fetchAdminTable,
   fetchComments,
   fetchProject,
   fetchProjectAsAdmin,

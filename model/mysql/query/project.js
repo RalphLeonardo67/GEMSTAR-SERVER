@@ -327,6 +327,28 @@ const fetchComments = (projectId) => {
   };
 };
 
+const fetchAdminTable = () => {
+  const query = `
+    SELECT project.project_id, project_name, start_date, end_date, date_created,
+      users.users_id, users.first_name, users.last_name, users.middle_name,
+      project_qoutation_detail.engine_model, SUM(project_qoutation.price) AS total_price,
+      status.status_acr, status.status_id, status.status_name
+      FROM project
+      LEFT JOIN users
+      ON project.users_id = users.users_id
+      LEFT JOIN project_qoutation_detail
+      ON project.project_id = project_qoutation_detail.project_id
+      LEFT JOIN project_qoutation
+      ON project_qoutation_detail.project_qoutation_detail_id = project_qoutation.project_qoutation_detail_id
+      LEFT JOIN status
+      ON project.status_id = status.status_id
+  `;
+  return {
+    sql: query,
+    values: [],
+  };
+};
+
 module.exports = {
   createComment,
   createProject,
@@ -336,6 +358,7 @@ module.exports = {
   createQoutationServices,
   checkServicesExist,
   assignEmployee,
+  fetchAdminTable,
   fetchComments,
   fetchProject,
   fetchProjectAsAdmin,
