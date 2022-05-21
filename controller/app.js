@@ -16,5 +16,5 @@ const fetchLogs = () => {
 
 module.exports = {
     createLogs,
-
+    fetchLogs,
 };
