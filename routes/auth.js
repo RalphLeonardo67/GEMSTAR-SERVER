@@ -59,6 +59,12 @@ router.get("/all", (req, res) => {
   });
 });
 
+router.get("/user-levels", (req, res) => {
+  AuthController.getAllUserLevel().then((result) => {
+    res.send({ success: true, data: result });
+  });
+});
+
 router.get("/logout", loggerModule("LOGOUT"), (req, res) => {
   req.session.destroy();
   res.send("logout");

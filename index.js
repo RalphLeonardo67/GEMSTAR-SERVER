@@ -57,6 +57,8 @@ try {
     res.send('Server is Running');
   });
 
+  app.use(express.static('uploads'));
+
   app.use('/', api);
 
   http.createServer(app).listen(port, () => {

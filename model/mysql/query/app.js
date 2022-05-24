@@ -1,21 +1,49 @@
 const uploadCarousel = (
-  carousel_id,
-  users_id,
-  caption,
-  date_updated,
-  is_inactive,
-  file_name,
-  file_destination
+  carouselData
 ) => {
+  const now = Date.now();
   const query = `INSERT INTO carousel
     (carousel_id, users_id, caption, date_updated, is_inactive, file_name, file_destination)
         VALUES
     (?, ?, ?, ?, ?, ?, ?)`;
   return {
     sql: query,
-    values: [email, email, password],
+    values: [carouselData.carousel_id, carouselData.users_id, carouselData.caption, now, carouselData.is_inactive, carouselData.filename, carouselData.file_destination ],
   };
 };
+
+const getAllCarousels = () => {
+  const query = `SELECT * FROM carousel`;
+  return {
+    sql: query,
+    values: [],
+  };
+};
+
+const getAllActiveCarousels = () => {
+  const query = `SELECT * FROM carousel WHERE is_inactive = ?`;
+  return {
+    sql: query,
+    values: [1],
+  };
+};
+
+const updateCarouselStatus = (id,is_inactive) => {
+  const query = `UPDATE carousel SET is_inactive=? WHERE carousel_id=?`;
+  return {
+    sql: query,
+    values: [is_inactive,id],
+  };
+}
+
+const deleteCarousel = (id) => {
+  const query = `DELETE FROM carousel WHERE carousel_id=?`;
+  return {
+    sql: query,
+    values: [id],
+  };
+}
+
 
 const insertLogs = (logsId, logsType, remarks) => {
   const now = Date.now();
@@ -52,4 +80,9 @@ module.exports = {
   insertLogs,
   fetchLogs,
   logsTotalCount,
+  uploadCarousel,
+  getAllCarousels,
+  getAllActiveCarousels,
+  updateCarouselStatus,
+  deleteCarousel
 };

@@ -4,6 +4,7 @@ const updateSet = {
   middle_name: "middle_name = ?",
   birthday: "birthday = ?",
   user_level_id: "user_level_id = ?",
+  contact_number: "contact_number = ?",
   user_name: "user_name = ?",
   password: "password = ?",
   is_confirmed: "is_confirmed = ?",
@@ -35,6 +36,8 @@ const register = ({
   middleName,
   lastName,
   birthDay,
+  user_level_id,
+  contact_number,
   address,
   email,
   userName,
@@ -45,9 +48,9 @@ const register = ({
   const now = Date.now();
   const query = `
     INSERT INTO
-    users(users_id, first_name, last_name, middle_name, birthday, user_level_id, email, user_name, password, is_confirmed, created_at, updated_at, address)
+    users(users_id, first_name, last_name, middle_name, birthday, user_level_id, email, user_name, password, is_confirmed, created_at, updated_at, address, contact_number)
     VALUES
-    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   return {
@@ -58,7 +61,7 @@ const register = ({
       lastName,
       middleName,
       birthDay,
-      process.env.DEFAULT_USER_LEVEL,
+      user_level_id,
       email,
       userName,
       passwordHash,
@@ -66,6 +69,7 @@ const register = ({
       now,
       now,
       address,
+      contact_number,
     ],
   };
 };
@@ -82,7 +86,7 @@ const update = (id, { fname, mname, lname, nname, bday }) => {
 
 const getByEmail = (email) => {
   const query = `SELECT
-  users_id, first_name, last_name, middle_name, birthday, user_level_name, user_level_acc, email, user_name, password, is_confirmed, address
+  users_id, first_name, last_name, middle_name, birthday, user_level_name, user_level_acc, email, user_name, password, is_confirmed, address, contact_number
   FROM users
   LEFT JOIN user_level
   ON users.user_level_id = user_level.user_level_id
@@ -95,7 +99,7 @@ const getByEmail = (email) => {
 
 const getByUsersId = (users_id) => {
   const query = `SELECT
-  users_id, first_name, last_name, middle_name, birthday, user_level_name, user_level_acc, email, user_name, password, is_confirmed, address
+  users_id, first_name, last_name, middle_name, birthday, user_level_name, user_level_acc, email, user_name, password, is_confirmed, address, contact_number
   FROM users
   LEFT JOIN user_level
   ON users.user_level_id = user_level.user_level_id
@@ -108,7 +112,7 @@ const getByUsersId = (users_id) => {
 
 const getByEmailOrUserName = (email) => {
   const query = `SELECT
-  users_id, first_name, last_name, middle_name, birthday, user_level_name, user_level_acc, email, user_name, password, is_confirmed, address
+  users_id, first_name, last_name, middle_name, birthday, user_level_name, user_level_acc, email, user_name, password, is_confirmed, address, contact_number
   FROM users
   LEFT JOIN user_level
   ON users.user_level_id = user_level.user_level_id
@@ -129,8 +133,16 @@ const getAllEmployee = () => {
   };
 };
 
+const getAllUserLevel = () => {
+  const query = `SELECT * FROM user_level`;
+  return {
+    sql: query,
+    values: []
+  };
+};
+
 const getUsersByUserLevel = (userLevel) => {
-  const query = `SELECT users_id, first_name, last_name, middle_name, birthday, users.user_level_id, email, user_name, is_confirmed, address, created_at, updated_at, user_level.user_level_name, user_level.user_level_acc
+  const query = `SELECT users_id, first_name, last_name, middle_name, birthday, users.user_level_id, email, user_name, is_confirmed, address, contact_number,created_at, updated_at, user_level.user_level_name, user_level.user_level_acc
     FROM users
     LEFT JOIN user_level
     ON users.user_level_id = user_level.user_level_id
@@ -142,7 +154,7 @@ const getUsersByUserLevel = (userLevel) => {
 };
 
 const getAllUsers = () => {
-  const query = `SELECT users_id, first_name, last_name, middle_name, birthday, users.user_level_id, email, user_name, is_confirmed, address, created_at, updated_at, user_level.user_level_name, user_level.user_level_acc
+  const query = `SELECT users_id, first_name, last_name, middle_name, birthday, users.user_level_id, email, user_name, is_confirmed, address, contact_number, created_at, updated_at, user_level.user_level_name, user_level.user_level_acc
     FROM users
     LEFT JOIN user_level
     ON users.user_level_id = user_level.user_level_id `;
@@ -174,4 +186,5 @@ module.exports = {
   register,
   update,
   checkDuplicateEmail,
+  getAllUserLevel 
 };

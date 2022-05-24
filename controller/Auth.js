@@ -72,6 +72,10 @@ const getAllUsers = () => {
   return executeScript(loginQuery.getAllUsers());
 };
 
+const getAllUserLevel = () => {
+  return executeScript(loginQuery.getAllUserLevel());
+};
+
 const dynamicUpdate = (usersId, fieldName, value) => {
   return executeScript(loginQuery.dynamicUpdate(usersId, fieldName, value));
 };
@@ -88,4 +92,5 @@ module.exports = {
   getByEmail,
   getByUsersId,
   getUsersByUserLevel,
+  getAllUserLevel
 };

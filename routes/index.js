@@ -12,5 +12,6 @@ router.use("/auth", auth);
 router.use("/services", services);
 router.use("/project", project);
 router.use("/notif", notification);
+router.use("/notif", notification);
 
 module.exports = router;
